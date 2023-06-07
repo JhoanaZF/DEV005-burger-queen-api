@@ -1,0 +1,28 @@
+{
+  "name": "burger-queen-api",
+  "version": "1.0.0",
+  "description": "Burger Api",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "api",
+    "node",
+    "burger-api"
+  ],
+  "author": "Jhoana Zamora",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
