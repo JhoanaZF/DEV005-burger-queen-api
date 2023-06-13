@@ -15,7 +15,7 @@ export const getUsers = async (req, res, next) => {
 };
 
 // Crear un nuevo usuario
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
     const { email } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -70,7 +70,7 @@ export const deleteUser = async (req, res, next) => {
 
 // Actualizar un usuario por su ID
 export const updateUser = async (req, res, next) => {
-    const userId = req.params.uid;
+    const userId = req.params.Product;
     const updateData = req.body;
 
     try {

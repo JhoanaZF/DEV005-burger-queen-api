@@ -18,7 +18,6 @@ const UserSchema = mongoose.Schema({
         type: String,
         enum: ["admin", "waiter", "chef"],
         default: "waiter",
-        required: true,
         trim: true,
     },
 });
