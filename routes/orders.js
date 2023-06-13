@@ -1,3 +1,4 @@
+import { createOrder, deleteOrder, getOrder, getOrders, updateOrder } from "../controller/orders.js";
 import { requireAuth } from "../middleware/auth.js";
 
 /** @module orders */
@@ -28,7 +29,7 @@ export default (app, nextMain) => {
      * @code {200} si la autenticación es correcta
      * @code {401} si no hay cabecera de autenticación
      */
-    app.get("/orders", requireAuth);
+    app.get("/orders", requireAuth, getOrders);
 
     /**
      * @name GET /orders/:orderId
@@ -51,7 +52,7 @@ export default (app, nextMain) => {
      * @code {401} si no hay cabecera de autenticación
      * @code {404} si la orden con `orderId` indicado no existe
      */
-    app.get("/orders/:orderId", requireAuth);
+    app.get("/orders/:orderId", requireAuth, getOrder);
 
     /**
      * @name POST /orders
@@ -79,7 +80,7 @@ export default (app, nextMain) => {
      * @code {400} no se indica `userId` o se intenta crear una orden sin productos
      * @code {401} si no hay cabecera de autenticación
      */
-    app.post("/orders", requireAuth);
+    app.post("/orders", requireAuth, createOrder);
 
     /**
      * @name PUT /orders
@@ -109,7 +110,7 @@ export default (app, nextMain) => {
      * @code {401} si no hay cabecera de autenticación
      * @code {404} si la orderId con `orderId` indicado no existe
      */
-    app.put("/orders/:orderId", requireAuth);
+    app.put("/orders/:orderId", requireAuth, updateOrder);
 
     /**
      * @name DELETE /orders
@@ -132,7 +133,7 @@ export default (app, nextMain) => {
      * @code {401} si no hay cabecera de autenticación
      * @code {404} si el producto con `orderId` indicado no existe
      */
-    app.delete("/orders/:orderId", requireAuth);
+    app.delete("/orders/:orderId", requireAuth, deleteOrder);
 
     nextMain();
 };
