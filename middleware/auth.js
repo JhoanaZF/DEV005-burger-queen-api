@@ -1,48 +1,56 @@
-const jwt = require('jsonwebtoken');
+import jwt from "jsonwebtoken";
+import User from "../model/User.js";
 
-module.exports = (secret) => (req, resp, next) => {
-  const { authorization } = req.headers;
+// Middleware para autenticación y verificación de roles
+export default (secret) => (req, resp, next) => {
+    const { authorization } = req.headers;
 
-  if (!authorization) {
-    return next();
-  }
-
-  const [type, token] = authorization.split(' ');
-
-  if (type.toLowerCase() !== 'bearer') {
-    return next();
-  }
-
-  jwt.verify(token, secret, (err, decodedToken) => {
-    if (err) {
-      return next(403);
+    if (!authorization) {
+        return next();
     }
 
-    // TODO: Verificar identidad del usuario usando `decodeToken.uid`
-  });
+    const [type, token] = authorization.split(" ");
+
+    if (type.toLowerCase() !== "bearer") {
+        return next();
+    }
+
+    jwt.verify(token, secret, async (err, decodedToken) => {
+        if (err) {
+            return next(403);
+        }
+
+        // TODO: Verificar identidad del usuario usando `decodedToken.uid`
+        req.user = await User.findById(decodedToken._id).select("-password -__v");
+        console.log(req.user);
+        return next();
+    });
 };
 
-module.exports.isAuthenticated = (req) => (
-  // TODO: decidir por la informacion del request si la usuaria esta autenticada
-  false
-);
+// Función para verificar si el usuario está autenticado
+export const isAuthenticated = (req) => {
+    // TODO: Decidir por la información del request si la usuaria está autenticada
+    if (req.user) {
+        return true;
+    }
 
-module.exports.isAdmin = (req) => (
-  // TODO: decidir por la informacion del request si la usuaria es admin
-  false
-);
+    return false;
+};
 
-module.exports.requireAuth = (req, resp, next) => (
-  (!module.exports.isAuthenticated(req))
-    ? next(401)
-    : next()
-);
+// Función para verificar si el usuario es un administrador
+export const isAdmin = (req) => {
+    // TODO: Decidir por la información del request si la usuaria es admin
+    if (req.user.role === "admin") {
+        return true;
+    }
 
-module.exports.requireAdmin = (req, resp, next) => (
-  // eslint-disable-next-line no-nested-ternary
-  (!module.exports.isAuthenticated(req))
-    ? next(401)
-    : (!module.exports.isAdmin(req))
-      ? next(403)
-      : next()
-);
+    return false;
+};
+
+// Middleware para requerir autenticación
+export const requireAuth = (req, resp, next) => (!isAuthenticated(req) ? next(401) : next());
+
+// Middleware para requerir rol de administrador
+export const requireAdmin = (req, resp, next) =>
+    // eslint-disable-next-line no-nested-ternary
+    !isAuthenticated(req) ? next(401) : !isAdmin(req) ? next(403) : next();

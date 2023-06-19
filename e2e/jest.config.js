@@ -1,3 +1,5 @@
-module.exports = {
-  preset: '@shelf/jest-mongodb',
+export default {
+    preset: "@shelf/jest-mongodb",
+    esModuleInterop: true,
+    testEnvironment: "node",
 };
