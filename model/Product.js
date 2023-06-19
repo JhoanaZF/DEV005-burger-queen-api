@@ -13,13 +13,11 @@ const ProductSchema = mongoose.Schema({
     },
     image: {
         type: String,
-        required: true,
-        trim: true,
+        default: "",
     },
     type: {
         type: String,
-        required: true,
-        trim: true,
+        default: "",
     },
     dataEntry: {
         type: Date,

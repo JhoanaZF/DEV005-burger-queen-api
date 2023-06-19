@@ -4,7 +4,7 @@ import authMiddleware from "./middleware/auth.js";
 import errorHandler from "./middleware/error.js";
 import routes from "./routes/index.js";
 import { connect } from "./connect.js";
-// import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 // Se obtienen la configuración del archivo config.js
 const { port, secret } = config;
@@ -15,7 +15,7 @@ const app = express();
 // Se establecen las configuraciones en la aplicación
 app.set("config", config);
 
-// app.set("pkg", pkg);
+app.set("pkg", pkg);
 
 // Se realiza la conexión a la base de datos
 connect();
