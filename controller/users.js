@@ -11,11 +11,6 @@ const isEmail = (email) => {
 export const getUsers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-
-    // if(!page || !limit){
-    //     return next(400)
-    // }
-
     const users = await User.find()
         .select("-password -__v")
         .skip((page - 1) * limit)
@@ -105,6 +100,7 @@ export const deleteUser = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
     const userId = req.params.uid;
     const updateData = req.body;
+
     try {
         if (!isEmail(userId)) {
             return next(405);

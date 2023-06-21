@@ -2,7 +2,8 @@ import path from "path";
 import { spawn } from "child_process";
 import kill from "tree-kill";
 import { MongoClient } from "mongodb";
-
+import url from "url";
+import qs from "querystring";
 import mongoGlobalSetup from "@shelf/jest-mongodb/lib/setup.js";
 
 import config from "../config.js";
@@ -58,7 +59,7 @@ const fetchWithAuth =
             })
                 .then((resp) => {
                     if (resp.status !== 200) {
-                        throw new Error(`Error: Could not authenticate as admin user - response ${resp.status}`);
+                        return new Error(`Error: Could not authenticate as admin user - response ${resp.status}`);
                     }
                     return resp.json();
                 })
@@ -95,7 +96,6 @@ const createTestUser = () =>
     })
         .then((resp) => {
             if (resp.status !== 200) {
-                console.log(resp.headers);
                 throw new Error(`Error: Could notdd create test user - response ${resp.status}`);
             }
             return fetch("/login", { method: "POST", body: __e2e.testUserCredentials });
@@ -193,3 +193,7 @@ process.fetch = fetch;
 process.fetchWithAuth = fetchWithAuth;
 process.fetchAsAdmin = fetchAsAdmin;
 process.fetchAsTestUser = fetchAsTestUser;
+process.config = config;
+process.url = url;
+process.qs = qs;
+process.adminUserCredentials = __e2e.adminUserCredentials;
