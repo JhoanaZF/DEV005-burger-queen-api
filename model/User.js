@@ -28,7 +28,7 @@ UserSchema.pre("save", async function (next) {
         next();
     }
 
-    const salt = await bcrypt.genSalt(10); 
+    const salt = await bcrypt.genSalt(10);
 
     this.password = await bcrypt.hash(this.password, salt);
 
@@ -37,7 +37,7 @@ UserSchema.pre("save", async function (next) {
 
 // Método para verificar si una contraseña coincide con la contraseña almacenada en el modelo de usuario
 UserSchema.methods.checkPassword = async function (passwordForm) {
-    return await bcrypt.compare(passwordForm, this.password); 
+    return await bcrypt.compare(passwordForm, this.password);
 };
 
 // Creación del modelo de usuario basado en el esquema definido

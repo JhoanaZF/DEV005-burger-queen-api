@@ -9,16 +9,15 @@ const { dbUrl } = config;
 async function connect() {
     // TODO: Conexión a la Base de Datos
     try {
-        
         await mongoose.connect(dbUrl, {
-            useNewUrlParser: true, 
-            useUnifiedTopology: true, 
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
         });
-        console.log("database conectada"); 
+        console.log("database conectada");
     } catch (error) {
-        console.log(`error: ${error.message}`); a
-        process.exit(1); 
+        console.log(`error: ${error.message}`);
+        process.exit(1);
     }
 }
 
-export { connect }; 
+export { connect };
