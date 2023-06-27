@@ -37,7 +37,9 @@ export const createOrder = async (req, res, next) => {
 export const getOrder = async (req, res, next) => {
     const orderId = req.params.orderId;
     try {
-        const order = await Order.findOne({ _id: orderId }).populate({ path: "products.product", select: "-__v" }).populate({ path: "userId", select: "-password -__v" }).select("-__v").lean();
+        const order = await Order.findOne({ _id: orderId }).populate({ path: "products.product", select: "-__v" })
+        .populate({ path: "userId", select: "-password -__v" })
+        .select("-__v").lean();
         if (!order) {
             const err = new Error("La orden no existe");
             return res.status(404).json({ msg: err.message });
