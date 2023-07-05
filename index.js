@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import config from "./config.js";
 import authMiddleware from "./middleware/auth.js";
 import errorHandler from "./middleware/error.js";
@@ -19,6 +20,21 @@ app.set("pkg", pkg);
 
 // Se realiza la conexión a la base de datos
 connect();
+
+// Se agrega validación de CORS
+const whitelist = ["http://127.0.0.1:5174", "http://localhost:5174", "http://127.0.0.1:5173", "http://localhost:5173", "http://localhost:3000", process.env.FRONTEND_URL];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.includes(origin)) {
+            //puede consultar la api
+            callback(null, true);
+        } else {
+            // no esta permitido consultar la api
+            callback(new Error("Errors de Cors"));
+        }
+    },
+};
+app.use(cors(corsOptions));
 
 // parse application/x-www-form-urlencoded
 

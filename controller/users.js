@@ -43,6 +43,7 @@ export const createUser = async (req, res, next) => {
     }
 
     try {
+        //crear usuario
         const user = new User(req.body);
         await user.save();
 
